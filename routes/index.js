@@ -3,12 +3,8 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-  //res.send('ok');
+  res.render('posts-panel', { title: 'Express' });
 });
-router.get('/test', function(req, res, next) {
-  res.render('messages');
-  //res.send('ok');
-});
+
 
 module.exports = router;
