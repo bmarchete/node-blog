@@ -1,0 +1,45 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      {% for post in posts %}
+
+      <div class="col s12 m12">
+        <div class="card horizontal hoverable">
+          <div class="card-image">
+            <img src="/images/avatar.png">
+          </div>
+          <div class="card-stacked">
+            <div class="card-content">
+              <h5>{{post.title}}</h5>
+              <small>Postado em {{moment(post.date).format("DD/MM/YYYY HH:mm")}} por <strong>{{post.author}}</strong></small>
+              <p>{{post.brief}}</p>
+            </div>
+            <div class="card-action">
+              <a href="/posts/{{post._id}}">Ver artigo completo</a>
+
+              <a class="red lighten-1 btn"
+                 onclick="event.preventDefault();
+                          document.getElementById('delete-form-{{post._id}}').submit();">
+                  Excluir
+              </a>
+
+              <form id="delete-form-{{post._id}}" action="/posts/{{post._id}}" method="POST" style="display: none;">
+                <input type="hidden" name="_method" value="DELETE" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,18 +1,25 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressNunjucks = require('express-nunjucks');
+const methodOverride = require('method-override')
 
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost/node-blog');
 
+//loads all models files
+fs.readdirSync(__dirname + '/models').forEach((filename)=>{
+  if (~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
+});
 
 const index = require('./routes/index');
-const users = require('./routes/users');
-const api = require('./routes/api');
+const postsApi = require('./routes/api/posts');
+const postsWeb = require('./routes/web/posts');
 
 const app = express();
 
@@ -34,9 +41,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//allows to use http verbs
+app.use(methodOverride(function (req, res) {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}));
+
 app.use('/', index);
-app.use('/users', users);
-app.use('/api', api);
+
+app.use('/api/posts', postsApi);
+app.use('/posts', postsWeb);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,37 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+
+{% include "partials/banner.njk" %}
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <form class="col s12" method="post" action="/api/posts">
+
+        <div class="row">
+          <div class="input-field col s6">
+            <input name="title" id="title" type="text" class="validate">
+            <label for="title">Título</label>
+          </div>
+
+          <div class="input-field col s6">
+            <input id="brief" type="text" name="brief" class="validate">
+            <label for="brief">Resumo</label>
+          </div>
+        </div>
+
+        <div class="input-field col s6">
+          <textarea id="body" class="materialize-textarea" name="body"></textarea>
+         <label for="body">Descrição</label>
+        </div>
+      </div>
+
+      <button class="waves-effect waves-light btn" type="submit">Enviar</button>
+
+    </form>
+  </div>
+</div>
+</div>
+{% endblock %}
