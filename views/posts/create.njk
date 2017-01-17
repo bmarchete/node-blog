@@ -2,29 +2,30 @@
 
 {% block content %}
 
-{% include "partials/banner.njk" %}
+
 
 <div class="container">
   <div class="section">
+    <h1 class="thin" style="font-size:3rem;">Novo Artigo</h1>
 
     <div class="row">
       <form class="col s12" method="post" action="/api/posts">
 
         <div class="row">
-          <div class="input-field col s6">
+          <div class="input-field col s6 m6">
             <input name="title" id="title" type="text" class="validate">
             <label for="title">Título</label>
           </div>
 
-          <div class="input-field col s6">
+          <div class="input-field col s6 m6">
             <input id="brief" type="text" name="brief" class="validate">
             <label for="brief">Resumo</label>
           </div>
-        </div>
 
-        <div class="input-field col s6">
-          <textarea id="body" class="materialize-textarea" name="body"></textarea>
-         <label for="body">Descrição</label>
+          <div class="input-field col s12 m12">
+            <textarea id="body" class="materialize-textarea" name="body"></textarea>
+            <label for="body">Descrição</label>
+          </div>
         </div>
       </div>
 
@@ -33,5 +34,6 @@
     </form>
   </div>
 </div>
-</div>
+
+
 {% endblock %}

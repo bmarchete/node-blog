@@ -1,4 +1,5 @@
 const express = require('express');
+const compression = require('compression');
 const path = require('path');
 const fs = require('fs');
 const favicon = require('serve-favicon');
@@ -7,6 +8,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressNunjucks = require('express-nunjucks');
 const methodOverride = require('method-override')
+
+
 
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -22,6 +25,7 @@ const postsApi = require('./routes/api/posts');
 const postsWeb = require('./routes/web/posts');
 
 const app = express();
+app.use(compression());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,10 +40,11 @@ const njk = expressNunjucks(app, {
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'),{maxage: 2592000000}));
 
 //allows to use http verbs
 app.use(methodOverride(function (req, res) {
